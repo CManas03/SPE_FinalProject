@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Vibes';
+    src: url('src/assets/GreatVibes-Regular.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Sacramento';
+    src: url('src/assets/Sacramento-Regular.ttf') format('truetype');
+  }
+  .aboutme-container {
+    display: flex;
+    align-items: center; /* Center the content vertically */
+    justify-content: center; /* Center the content horizontally */
+    height: 100%;
+    background: url('src/assets/simpleBlack.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 0 10%; /* Add some padding to prevent the elements from sticking to the edges */
+}
+  .profile-pic {
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: url('src/assets/front.JPG') no-repeat center center/cover;
+    margin-right: 20%; /* Add some margin to create space between the picture and the text */
+  }
+  
+  .aboutme-text {
+    max-width: 600px;
+    text-align: justify;
+    color: #fff;
+    font-size: 2.2em;
+    font-family: 'Sacramento';
+    padding-top: 2%;
+}

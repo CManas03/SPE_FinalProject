@@ -15,7 +15,7 @@ const AnimatedDiv = styled.div`
 `;
 
 const AnimatedDiv1 = styled.div`
-  animation: 10s ${fadeInAnimation};
+  animation: 7s ${fadeInAnimation};
   animation-fill-mode: forwards;
   opacity: 0;
 `;

@@ -1,7 +1,6 @@
 // Navbar.jsx
 import { Link } from 'react-scroll';
 import "./Navbar.css"
-
 const Navbar = () => {
   return (
     <nav>
@@ -13,7 +12,7 @@ const Navbar = () => {
           <Link to="aboutme" smooth={true}>ME</Link>
         </li>
         <li>
-          <Link to="section2" smooth={true}>PROJECTS</Link>
+          <Link to="myprojects" smooth={true}>PROJECTS</Link> 
         </li>
         <li>
           <Link to="section3" smooth={true}>BLOG</Link>
@@ -22,5 +21,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;
