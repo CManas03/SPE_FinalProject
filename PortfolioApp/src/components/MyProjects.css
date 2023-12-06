@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'Nova';
+  src: url('src/assets/Nova.otf') format('opentype');
+}
 .projects-container {
     display: flex;
     justify-content: center;
@@ -11,6 +15,8 @@
     margin: auto;
     height: auto;
     padding: 20px;
+    font-family: 'Nova';
+    font-size: 1.4em;
   }
   
   .projects-inner-container {
@@ -50,7 +56,7 @@
 
 .modal-content {
   animation: fadeIn 0.3s ease-in;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.5);
   padding: 20px;
   border-radius: 10px;
   display: flex;
@@ -60,11 +66,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50vw; 
+  width: 40vw; 
   height: auto; 
   padding: 20px;
   margin: auto;
   border: none;
+  font-family: 'Montserrat';
+  font-size: 1.3em;
 }
 
 .ReactModal__Overlay {

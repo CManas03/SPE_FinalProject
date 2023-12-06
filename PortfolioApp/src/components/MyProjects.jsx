@@ -55,6 +55,7 @@ const MyProjects = () => {
         {projects.map(project => (
           <div key={project.id} className="project-item" onClick={() => openModal(project)}>
             <h2>{project.title}</h2>
+            <br/>
             <p>{project.tldr}</p>
           </div>
         ))}
@@ -64,9 +65,14 @@ const MyProjects = () => {
           {selectedProject && (
             <>
               <h2>{selectedProject.title}</h2>
+              <br/>
               <p>About : {selectedProject.description}</p>
+              <br/>
               <p>Tech Stack : {selectedProject.techstack}</p>
-              <p>URL : {selectedProject.url}</p>
+              <p>URL :  <a href={selectedProject.url} target="_blank" rel="noopener noreferrer">
+                  {selectedProject.url}
+                </a>
+              </p>
             </>
           )}
         </animated.div>
