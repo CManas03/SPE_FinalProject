@@ -14,9 +14,6 @@ const Navbar = () => {
         <li>
           <Link to="myprojects" smooth={true}>PROJECTS</Link> 
         </li>
-        <li>
-          <Link to="section3" smooth={true}>BLOG</Link>
-        </li>
       </ul>
     </nav>
   );

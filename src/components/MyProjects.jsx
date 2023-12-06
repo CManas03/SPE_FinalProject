@@ -5,6 +5,7 @@ import './MyProjects.css';
 
 Modal.setAppElement('#root');
 
+
 const MyProjects = () => {
   const [projects, setProjects] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -49,11 +50,12 @@ const MyProjects = () => {
   };
 
   return (
-    <div className="projects-container">
+    <div className="projects-container" id="myprojects">
       <div className="projects-inner-container" onMouseDown={startDrag} onMouseLeave={drag} onMouseUp={drag} onMouseMove={drag}>
         {projects.map(project => (
           <div key={project.id} className="project-item" onClick={() => openModal(project)}>
             <h2>{project.title}</h2>
+            <p>{project.tldr}</p>
           </div>
         ))}
       </div>
@@ -62,7 +64,9 @@ const MyProjects = () => {
           {selectedProject && (
             <>
               <h2>{selectedProject.title}</h2>
-              <p>{selectedProject.description}</p>
+              <p>About : {selectedProject.description}</p>
+              <p>Tech Stack : {selectedProject.techstack}</p>
+              <p>URL : {selectedProject.url}</p>
             </>
           )}
         </animated.div>

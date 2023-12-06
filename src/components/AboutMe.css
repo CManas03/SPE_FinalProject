@@ -22,7 +22,7 @@
     width: 500px;
     height: 500px;
     border-radius: 50%;
-    background: url('src/assets/front.JPG') no-repeat center center/cover;
+    background: url('src/assets/Train.jpg') no-repeat center center/cover;
     margin-right: 20%; /* Add some margin to create space between the picture and the text */
   }
   

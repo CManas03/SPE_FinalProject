@@ -3,11 +3,14 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('src/assets/blackIcons.jpg') no-repeat center center fixed;
+    background: url('src/assets/fancy.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    margin: auto;
+    height: auto;
+    padding: 20px;
   }
   
   .projects-inner-container {
@@ -23,11 +26,12 @@
   
   .projects-inner-container::-webkit-scrollbar {
     display: none; /* For Chrome, Safari and Opera */
+    width: fit-content;
   }
   
   .project-item {
     min-width: 30vw; /* Adjust this value as needed */
-    background: #000000;
+    background: rgba(0, 0, 0, 0.3);
     padding: 20px;
     border-radius: 10px;
     cursor: pointer;
@@ -39,10 +43,30 @@
     transform: scale(1.05);
   }
 
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
 .modal-content {
-  background: #fff;
+  animation: fadeIn 0.3s ease-in;
+  background: rgba(0, 0, 0, 0.7);
   padding: 20px;
   border-radius: 10px;
-  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw; 
+  height: auto; 
+  padding: 20px;
   margin: auto;
+  border: none;
+}
+
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.7) !important; /* Black with 50% opacity */
 }
