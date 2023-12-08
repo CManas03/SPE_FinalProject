@@ -1,0 +1,65 @@
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.create-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.create-button {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #008CBA;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+}
+
+.create-button:hover {
+    background-color: #4CAF50;
+    color: rgb(255, 255, 255);
+}
+
+.item-card {
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+    margin: 20px;
+    padding: 20px;
+}
+
+.item-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.edit-button, .delete-button {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.edit-button:hover, .delete-button:hover {
+    background-color: #4CAF50;
+    color: rgb(255, 255, 255);
+}

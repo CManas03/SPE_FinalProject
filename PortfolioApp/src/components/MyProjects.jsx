@@ -18,9 +18,9 @@ const MyProjects = () => {
   });
 
   useEffect(() => {
-    fetch('src/assets/projects.json')
+    fetch('http://localhost:8000/items/')
       .then(response => response.json())
-      .then(data => setProjects(data));
+      .then(data => setProjects(data.items)); // Extract items from data
   }, []);
 
   const openModal = (project) => {
