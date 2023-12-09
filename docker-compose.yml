@@ -12,24 +12,20 @@ services:
   backend:
     build: ./Backend
     ports: 
-      - "8080:8080"
-    depends_on:
-      - mongodb
+      - "8000:8000"
+    environment:
+      URI: mongodb://mongodb:27017
   
   helper:
     build: ./helper
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
   
   frontend:
     build: ./PortfolioApp
     ports:
       - "5173:5173"
-    depends_on:
-      - backend  
-
 volumes:
-  mongodb_data:
+  mongodb_data: {}
+
 

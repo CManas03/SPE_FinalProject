@@ -4,6 +4,11 @@ from pydantic import BaseModel
 import json
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
+import time
+import os
+
+
+uri = os.environ.get('URI')
 
 origins = [
     "http://localhost:3000", 
@@ -11,7 +16,7 @@ origins = [
 ]
 
 app = FastAPI()
- 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -21,9 +26,9 @@ app.add_middleware(
 )
 
 # MongoDB connection setup
-client = MongoClient("mongodb://localhost:27017/")
-db = client.projects
-collection = db.displayProjects
+client = None
+db = None
+collection = None
 
 class Item(BaseModel):
     title: str
@@ -32,7 +37,28 @@ class Item(BaseModel):
     url: str
     techstack: str
 
+@app.on_event("startup")
 async def startup_event():
+    global client, db, collection
+    attempts = 0
+    while not client:
+        try:
+            client = MongoClient(uri, serverSelectionTimeoutMS=5000)
+            # The ismaster command is cheap and does not require auth.
+            client.admin.command('ismaster')
+            db = client.projects
+            collection = db.displayProjects
+            print("Connected to MongoDB")
+        except errors.ServerSelectionTimeoutError as err:
+            # If connection attempt fails, wait and then try again.
+            attempts += 1
+            if attempts <= 5:  # Adjust the value as needed.
+                print(f"Attempt #{attempts} to connect to MongoDB failed. Retrying in 5 seconds...")
+                time.sleep(5)
+            else:
+                print("Could not connect to MongoDB after 5 attempts. Exiting...")
+                raise err
+
     if collection.count_documents({}) == 0:  # Check if the collection is empty
         with open('projects.json') as f:
             data = json.load(f)
