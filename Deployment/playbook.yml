@@ -1,42 +1,42 @@
 ---
 - name: Running Docker Compose
   hosts: host_machine
-  # become: yes
   tasks:
-    - name: Check if Docker is installed
+    - name: Checking Docker Installation
       command: docker --version
       register: docker_version
       ignore_errors: true
-
-    - name: Install Docker if not present
+      
+    - name: Docker Installation (if necessary)
       apt:
         name: docker.io
         state: present
       when: docker_version.rc != 0
 
-    - name: Check if Docker Compose is installed
+    - name: Checking Docker Compose Installation
       command: docker-compose --version
       register: compose_version
       ignore_errors: true
 
-    - name: Install Docker Compose if not present
+    - name: Docker Compose Installation (if necessary)
       apt:
         name: docker-compose
         state: present
       when: compose_version.rc != 0
 
-    - name: Put docker compose file on machine
+    - name: Copying Docker Compose file
       copy:
         src: ./docker-compose.yaml
         dest: ~/
 
-    - name: Pull images
+    - name: Pulling Docker images
       shell: 
         cmd: docker-compose pull
         chdir: ./
 
-    - name: Run the pulled Docker images in detached mode
+    - name: Running Docker Compose
       command: docker-compose up -d --build
 
-    - name: Prune unwanted images
+
+    - name: Pruning Docker images
       command: docker image prune --force
