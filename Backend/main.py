@@ -6,7 +6,9 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import time
 import os
-
+import logging
+import logstash
+import sys
 
 uri = os.environ.get('URI')
 
@@ -37,6 +39,14 @@ class Item(BaseModel):
     url: str
     techstack: str
 
+# Set up logger
+logstash_host = os.getenv('LOGSTASH_HOST', 'localhost')
+logger = logging.getLogger('python-logstash-logger')
+logger.setLevel(logging.DEBUG)  # Set level to DEBUG to capture all levels of logs
+logger.addHandler(logstash.LogstashHandler(logstash_host, 5000, version=1))
+file_handler = logging.FileHandler('app.log')
+logger.addHandler(file_handler)
+
 @app.on_event("startup")
 async def startup_event():
     global client, db, collection
@@ -44,29 +54,29 @@ async def startup_event():
     while not client:
         try:
             client = MongoClient(uri, serverSelectionTimeoutMS=5000)
-            # The ismaster command is cheap and does not require auth.
             client.admin.command('ismaster')
             db = client.projects
             collection = db.displayProjects
-            print("Connected to MongoDB")
+            logger.info("Connected to MongoDB")
         except errors.ServerSelectionTimeoutError as err:
-            # If connection attempt fails, wait and then try again.
             attempts += 1
-            if attempts <= 5:  # Adjust the value as needed.
-                print(f"Attempt #{attempts} to connect to MongoDB failed. Retrying in 5 seconds...")
+            if attempts <= 5:
+                logger.warn(f"Attempt #{attempts} to connect to MongoDB failed. Retrying in 5 seconds...")
                 time.sleep(5)
             else:
-                print("Could not connect to MongoDB after 5 attempts. Exiting...")
+                logger.error("Could not connect to MongoDB after 5 attempts. Exiting...")
                 raise err
 
-    if collection.count_documents({}) == 0:  # Check if the collection is empty
+    if collection.count_documents({}) == 0:
         with open('projects.json') as f:
             data = json.load(f)
         
         for item in data:
             try:
                 collection.insert_one(item)
+                logger.debug(f"Inserted item: {item['title']}")
             except errors.DuplicateKeyError:
+                logger.warn(f"Duplicate item: {item['title']}")
                 pass
 
         collection.create_index("title", unique=True)
@@ -82,47 +92,52 @@ def item_helper(item) -> dict:
         "url": item["url"],
         "techstack": item["techstack"]
     }
+
 @app.get("/items/")
 async def read_items():
-    # Fetch data from MongoDB
     items = collection.find()
     data = [item_helper(item) for item in items]
+    logger.debug(f"Read {len(data)} items")
     return {"items": data}
 
 @app.post("/items/")
 async def create_item(item: Item):
-    # Insert a new item into the MongoDB collection
     try:
         collection.insert_one(item.dict())
+        logger.info(f"Created item: {item.title}")
         return {"message": "Item has been added successfully"}
     except errors.DuplicateKeyError:
+        logger.warn(f"Attempted to create duplicate item: {item.title}")
         raise HTTPException(status_code=400, detail="Duplicate item")
 
 @app.get("/items/{item_title}")
 async def read_item(item_title: str):
-    # Fetch a specific item from the MongoDB collection
     item = collection.find_one({"title": item_title})
     if item is not None:
+        logger.debug(f"Read item: {item_title}")
         return item_helper(item)
     else:
+        logger.warn(f"Attempted to read non-existent item: {item_title}")
         raise HTTPException(status_code=404, detail="Item not found")
 
 @app.put("/items/{item_title}")
 async def update_item(item_title: str, item: Item):
-    # Update a specific item in the MongoDB collection
     updated_item = collection.find_one_and_update({"title": item_title}, {"$set": item.dict()})
     if updated_item is not None:
+        logger.info(f"Updated item: {item_title}")
         return {"message": "Item has been updated successfully"}
     else:
+        logger.warn(f"Attempted to update non-existent item: {item_title}")
         raise HTTPException(status_code=404, detail="Item not found")
 
 @app.delete("/items/{item_title}")
 async def delete_item(item_title: str):
-    # Delete a specific item from the MongoDB collection
     deleted_item = collection.find_one_and_delete({"title": item_title})
     if deleted_item is not None:
+        logger.info(f"Deleted item: {item_title}")
         return {"message": "Item has been deleted successfully"}
     else:
+        logger.warn(f"Attempted to delete non-existent item: {item_title}")
         raise HTTPException(status_code=404, detail="Item not found")
 
 if __name__ == "__main__":

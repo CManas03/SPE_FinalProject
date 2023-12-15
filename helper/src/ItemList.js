@@ -16,6 +16,8 @@ function ItemList() {
         if (window.confirm('Are you sure you want to delete this item?')) {
             deleteItem(title).then(() => {
                 setItems(items.filter(item => item.title !== title));
+            }).catch(error => {
+                throw error;
             });
         }
     };

@@ -31,9 +31,8 @@ function ItemForm() {
         });
     };
 
-    const handleSubmit = (event) => {
+    function handleSubmit(event) {
         event.preventDefault();
-    
         const trimmedItem = {
             title: item.title.trim(),
             description: item.description.trim(),
@@ -41,13 +40,16 @@ function ItemForm() {
             url: item.url.trim(),
             techstack: item.techstack.trim()
         };
-    
+        if (!trimmedItem.title || !trimmedItem.description || !trimmedItem.tldr || !trimmedItem.url || !trimmedItem.techstack) {
+            return;
+        }
         if (title) {
             updateItem(title, trimmedItem).then(() => navigate('/'));
         } else {
             createItem(trimmedItem).then(() => navigate('/'));
         }
-    };
+    }
+
     return (
         <form onSubmit={handleSubmit} className="item-form">
             <div className="form-group">
