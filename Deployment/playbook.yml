@@ -1,42 +1,10 @@
 ---
 - name: Running Docker Compose
-  hosts: host_machine
+  hosts: all
   tasks:
-    - name: Checking Docker Installation
-      command: docker --version
-      register: docker_version
-      ignore_errors: true
-      
-    - name: Docker Installation (if necessary)
-      apt:
-        name: docker.io
-        state: present
-      when: docker_version.rc != 0
-
-    - name: Checking Docker Compose Installation
-      command: docker-compose --version
-      register: compose_version
-      ignore_errors: true
-
-    - name: Docker Compose Installation (if necessary)
-      apt:
-        name: docker-compose
-        state: present
-      when: compose_version.rc != 0
-
-    - name: Copying Docker Compose file
-      copy:
-        src: ./docker-compose.yaml
-        dest: ~/
-
-    - name: Pulling Docker images
-      shell: 
-        cmd: docker-compose pull
-        chdir: ./
 
     - name: Running Docker Compose
       command: docker-compose up -d --build
-
 
     - name: Pruning Docker images
       command: docker image prune --force

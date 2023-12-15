@@ -10,7 +10,7 @@ services:
       - mongodb_data:/data/db
   
   backend:
-    image: cmanas03/backend
+    image: cmanas03/backend:latest
     build: ./Backend
     ports: 
       - "8000:8000"
@@ -21,13 +21,13 @@ services:
       # LOGSTASH_HOST: logstash
 
   helper:
-    image: cmanas03/helper
+    image: cmanas03/helper:latest
     build: ./helper
     ports:
       - "3000:3000"
   
   frontend:
-    image: cmanas03/portfolioapp
+    image: cmanas03/portfolioapp:latest
     build: ./PortfolioApp
     ports:
       - "5173:5173"
