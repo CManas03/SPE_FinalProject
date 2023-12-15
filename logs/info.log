@@ -1,2 +1,15 @@
 2023-12-15 12:44:34,699 - INFO - Connected to MongoDB
 2023-12-15 14:47:54,820 - INFO - Connected to MongoDB
+2023-12-15 15:11:00,740 - INFO - Connected to MongoDB
+2023-12-15 15:13:17,169 - INFO - Created item: Project 7
+2023-12-15 15:13:22,738 - INFO - Created item: h
+2023-12-15 15:13:28,506 - INFO - Updated item: h
+2023-12-15 15:13:31,440 - INFO - Deleted item: g
+2023-12-15 15:15:38,871 - INFO - Updated item: Project 7
+2023-12-15 15:15:42,092 - INFO - Deleted item: Project 7
+2023-12-15 15:48:18,504 - INFO - Connected to MongoDB
+2023-12-15 15:54:01,029 - INFO - Connected to MongoDB
+2023-12-15 15:58:16,101 - INFO - Connected to MongoDB
+2023-12-15 16:03:15,000 - INFO - Connected to MongoDB
+2023-12-15 16:07:16,671 - INFO - Connected to MongoDB
+2023-12-15 16:08:44,291 - INFO - Connected to MongoDB
