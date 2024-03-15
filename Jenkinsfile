@@ -56,23 +56,45 @@ pipeline {
                 }
             }
         }
+        // stage('Pruning and stopping Containers') {
+        //     steps {
+        //         script {
+        //             def containers = sh(script: 'docker ps -a -q', returnStdout: true).trim()
+        //             echo "Containers found: ${containers}"
+        
+        //             if (containers) {
+        //                 sh "docker stop ${containers}"
+        //             } else {
+        //                 echo "No containers found to stop."
+        //             }
+        
+        //             sh 'docker container prune -f'
+        //             sh 'docker image prune -f'
+        //         }
+        //     }
+        // }
+        
         stage('Pruning and stopping Containers') {
-            steps {
-                script {
-                    def containers = sh(script: 'docker ps -a -q', returnStdout: true).trim()
-                    echo "Containers found: ${containers}"
-        
-                    if (containers) {
-                        sh "docker stop ${containers}"
-                    } else {
-                        echo "No containers found to stop."
-                    }
-        
-                    sh 'docker container prune -f'
-                    sh 'docker image prune -f'
+          steps {
+            script {
+              def containers = sh(script: 'docker ps -a -q', returnStdout: true).trim()
+              echo "Containers found: ${containers}"
+              
+              if (containers) {
+                def containerArray = containers.split('\n')
+                containerArray.each { container ->
+                  sh "docker stop ${container}"
                 }
+              } else {
+                echo "No containers found to stop."
+              }
+        
+              sh 'docker container prune -f'
+              sh 'docker image prune -f'
             }
+          }
         }
+
         stage('Ansible Deployment') {
             steps {
                 ansiblePlaybook colorized: true,
